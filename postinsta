@@ -303,6 +303,17 @@ logger.log_info ('Re-exporting shares')
 (rc, stdout, sterr) = cmd_runner.run_shell_cmd("/usr/bin/setfacl -m g:ibmapadmin:rw /etc/exports")
 (rc, stdout, sterr) = cmd_runner.run_shell_cmd("/usr/sbin/sysctl --system")
 
+#Add/modify the parameters in /etc/login.defs file
+logger.log_info("Add/modify the parameters in /etc/login.defs file")
+login_parm = {"SHA_CRYPT_MIN_ROUNDS" : "500", "PASS_MIN_DAYS" : "1", "PASS_MAX_DAYS" : "60", "PASS_MIN_LEN" : "15", "FAIL_DELAY" : "4", "UMASK" : "077"}
+for key, val in login_parm.items(): 
+    (rc,stdout,sterr) = cmd_runner.run_shell_cmd("grep -ir \'"+ key +"\' /etc/login.defs")
+    if rc==0:
+        cmd_runner.run_shell_cmd_or_raise("sed -i \'s/\<"+key+"\>.*/"+key+ "   " +val+"/\' /etc/login.defs")
+    else:
+        with open("/etc/login.defs", "a") as login_file:
+            login_file.write(key + " = " + val + "\n")
+
 logger.log_info_done()
 logger.log_info("Done configuring package.")
 
