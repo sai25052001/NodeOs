@@ -308,14 +308,3 @@ logger.log_info("Done configuring package.")
 
 if reboot_required:
     logger.log_print("Kernel setting changed, reboot suggested...")
-
-#local_b
-#local_a
-#local_d
-#local_1
-``
-adad
-dafa
-dadfafa
-dfafda
-``
