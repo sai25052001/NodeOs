@@ -313,9 +313,24 @@ for key, val in login_parm.items():
     else:
         with open("/etc/login.defs", "a") as login_file:
             login_file.write(key + " = " + val + "\n")
+            
+#Modifying the '/etc/security/faillock.conf' file adding parameters
+logger.log_info("Modifying the '/etc/security/faillock.conf' file adding parameters")
+faillock_values = ["s/^# deny.*/deny = 3/",
+                   "s/^# fail_interval.*/fail_interval = 900/",
+                   "s/^# unlock_time.*/unlock_time = 0/",
+                   "s/^# dir.*/dir = \/var\/log\/faillock/",
+                   "s/^# silent.*/silent/",
+                   "s/^# even_deny_root.*/even_deny_root/",
+                   "s/^# audit.*/audit/"
+                  ]
+
+for pattern in faillock_values:
+    (rc, stdout, sterr) = cmd_runner.run_shell_cmd("sed -i '%s' /etc/security/faillock.conf" % (pattern))
 
 logger.log_info_done()
 logger.log_info("Done configuring package.")
 
 if reboot_required:
     logger.log_print("Kernel setting changed, reboot suggested...")
+
