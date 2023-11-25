@@ -310,3 +310,4 @@ if reboot_required:
     logger.log_print("Kernel setting changed, reboot suggested...")
 
 #local_b
+#local_a
