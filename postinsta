@@ -317,6 +317,9 @@ faillock_values = ["s/^# deny.*/deny = 3/",
 for pattern in faillock_values:
     (rc, stdout, sterr) = cmd_runner.run_shell_cmd("sed -i '%s' /etc/security/faillock.conf" % (pattern))
 
+    cherrypick demo line1
+    line2
+
 logger.log_info_done()
 logger.log_info("Done configuring package.")
 
